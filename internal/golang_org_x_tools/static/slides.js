@@ -2,7 +2,8 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-var PERMANENT_URL_PREFIX = '/static/';
+var loc = document.currentScript.src;
+var PERMANENT_URL_PREFIX = loc.substring(0, loc.lastIndexOf('/')+1);
 
 var SLIDE_CLASSES = ['far-past', 'past', 'current', 'next', 'far-next'];
 
