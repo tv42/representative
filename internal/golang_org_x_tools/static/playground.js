@@ -115,7 +115,7 @@ function HTTPTransport(enableVet) {
 			seq++;
 			var cur = seq;
 			var playing;
-			$.ajax('/compile', {
+			$.ajax('https://play.golang.org/compile', {
 				type: 'POST',
 				data: {'version': 2, 'body': body, 'withVet': enableVet},
 				dataType: 'json',
@@ -151,7 +151,7 @@ function HTTPTransport(enableVet) {
 					// 'withVet' parameter above, also try the old way.
 					// TODO: remove this when it falls out of use.
 					// It is 2019-05-13 now.
-					$.ajax("/vet", {
+					$.ajax("https://play.golang.org/vet", {
 						data: {"body": body},
 						type: "POST",
 						dataType: "json",
@@ -449,7 +449,7 @@ function PlaygroundOutput(el) {
       if ($(opts.fmtImportEl).is(":checked")) {
         data["imports"] = "true";
       }
-      $.ajax("/fmt", {
+      $.ajax("https://play.golang.org/fmt", {
         data: data,
         type: "POST",
         dataType: "json",
@@ -474,7 +474,7 @@ function PlaygroundOutput(el) {
       sharing = true;
 
       var sharingData = body();
-      $.ajax("/share", {
+      $.ajax("https://play.golang.org/share", {
         processData: false,
         data: sharingData,
         type: "POST",
