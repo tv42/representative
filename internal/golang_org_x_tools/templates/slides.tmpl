@@ -6,17 +6,18 @@
   <head>
     <title>{{.Title}}</title>
     <meta charset='utf-8'>
+    <link rel="icon" href="{{static}}/favicon.ico">
     <script>
       var notesEnabled = {{.NotesEnabled}};
     </script>
-    <script src='/static/slides.js'></script>
+    <script src='{{static}}/slides.js'></script>
 
     {{if .NotesEnabled}}
     <script>
       var sections = {{.Sections}};
       var titleNotes = {{.TitleNotes}}
     </script>
-    <script src='/static/notes.js'></script>
+    <script src='{{static}}/notes.js'></script>
     {{end}}
 
     <script>
@@ -85,7 +86,11 @@
     </div>
 
     {{if .PlayEnabled}}
-    <script src='/play.js'></script>
+    <script src='{{static}}/jquery.js'></script>
+    <script src='{{static}}/jquery-ui.js'></script>
+    <script src='{{static}}/playground.js'></script>
+    <script src='{{static}}/play.js'></script>
+    <script>initPlayground(new HTTPTransport());</script>
     {{end}}
 
     <script>

@@ -7,6 +7,7 @@
     <title>{{.Title}}</title>
     <link type="text/css" rel="stylesheet" href="/static/article.css">
     <meta charset='utf-8'>
+    <link rel="icon" href="{{static}}/favicon.ico">
     <script>
       // Initialize Google Analytics tracking code on production site only.
       if (window["location"] && window["location"]["hostname"] == "talks.golang.org") {
@@ -58,7 +59,11 @@
     </div>
 
     {{if .PlayEnabled}}
-    <script src='/play.js'></script>
+    <script src='{{static}}/jquery.js'></script>
+    <script src='{{static}}/jquery-ui.js'></script>
+    <script src='{{static}}/playground.js'></script>
+    <script src='{{static}}/play.js'></script>
+    <script>initPlayground(new HTTPTransport());</script>
     {{end}}
 
     <script>
