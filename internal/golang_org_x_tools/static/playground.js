@@ -308,7 +308,6 @@ function PlaygroundOutput(el) {
   //  shareEl - share button element (optional)
   //  shareURLEl - share URL text input element (optional)
   //  shareRedirect - base URL to redirect to on share (optional)
-  //  toysEl - toys select element (optional)
   //  enableHistory - enable using HTML5 history API (optional)
   //  transport - playground transport to use (default is HTTPTransport)
   //  enableShortcuts - whether to enable shortcuts (Ctrl+S/Cmd+S to save) (default is false)
@@ -519,23 +518,6 @@ function PlaygroundOutput(el) {
       }
       $(opts.shareEl).click(function() {
         share();
-      });
-    }
-
-    if (opts.toysEl !== null) {
-      $(opts.toysEl).bind('change', function() {
-        var toy = $(this).val();
-        $.ajax("/doc/play/"+toy, {
-          processData: false,
-          type: "GET",
-          complete: function(xhr) {
-            if (xhr.status != 200) {
-              alert("Server error; try again.");
-              return;
-            }
-            setBody(xhr.responseText);
-          }
-        });
       });
     }
   }
