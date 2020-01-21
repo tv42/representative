@@ -1,0 +1,28 @@
+#!/bin/sh
+set -e
+
+if [ "$(go list -m -f '{{.Path}}')" != "eagain.net/go/representative/internal/copy-from-module" ]; then
+    echo "$0: must be run from the copy-from-module directory" 1>&2
+    exit 1
+fi
+
+DST=../golang_org_x_tools
+mod="$(go list -m -f '{{.Dir}}' golang.org/x/tools)"
+install -d -m0755 "$DST/static" "$DST/templates"
+install -m0644 -t "$DST" \
+	"$mod/LICENSE"
+install -m0644 -t "$DST/static/" \
+	"$mod/cmd/present/static/styles.css" \
+	"$mod/cmd/present/static/article.css" \
+	"$mod/cmd/present/static/notes.css" \
+	"$mod/cmd/present/static/notes.js" \
+	"$mod/cmd/present/static/slides.js" \
+	"$mod/cmd/present/static/favicon.ico" \
+	"$mod/cmd/present/static/jquery-ui.js" \
+	"$mod/godoc/static/play.js" \
+	"$mod/godoc/static/playground.js" \
+	"$mod/godoc/static/jquery.js"
+install -m0644 -t "$DST/templates/" \
+	"$mod/cmd/present/templates/action.tmpl" \
+	"$mod/cmd/present/templates/article.tmpl" \
+	"$mod/cmd/present/templates/slides.tmpl"
