@@ -1,10 +1,6 @@
-The files in internal/golang_org_x_tools_cmd_present are copied from
-golang.org/x/tools@v0.0.0-20200121210457-b3205ff6fffe with
-minimal edits, and have a different copyright and license. Please see
-the file LICENSE in that subdirectory for more.
-
-The rest of this source is under the following license:
-
+The files in internal/golang_org_x_tools_cmd_present have a different
+copyright and license. Please see the file LICENSE in that
+subdirectory.
 
 Copyright (c) 2020 Tommi Virtanen
 
