@@ -4,6 +4,11 @@
 Present-style](http://talks.golang.org/2012/go-docs.slide#21)
 `*.slide` (or `*.article`) file and creates a static HTML page.
 
+## Install
+
+```
+$ go get eagain.net/go/representative
+```
 
 ## Usage
 
