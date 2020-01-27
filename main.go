@@ -111,6 +111,9 @@ func usage() {
 }
 
 func main() {
+	log.SetFlags(0)
+	log.SetPrefix(prog + ": ")
+
 	var assets = flag.String("assets", "", "write assets to `DIR`")
 	var urlToAssets URLFlag
 	urlToAssets.Default = func() *url.URL {
