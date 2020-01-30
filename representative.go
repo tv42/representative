@@ -79,21 +79,9 @@ func Convert(w io.Writer, src string, urlToAssets *url.URL) error {
 	}
 	srcF.Close()
 
-	dst := src + ".html"
-	dstF, err := safefile.Create(dst, 0644)
-	if err != nil {
+	if err := doc.Render(w, tmpl); err != nil {
 		return err
 	}
-	defer dstF.Close()
-
-	if err := doc.Render(dstF, tmpl); err != nil {
-		return err
-	}
-
-	if err := dstF.Commit(); err != nil {
-		return err
-	}
-
 	return nil
 }
 

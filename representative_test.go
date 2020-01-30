@@ -28,14 +28,19 @@ func TestSlidesStaticPath(t *testing.T) {
 	}
 	sel := cascadia.MustCompile(`script[src]`)
 	nodes := cascadia.QueryAll(tree, sel)
+	seen := false
 	for _, n := range nodes {
 		for _, attr := range n.Attr {
 			if attr.Namespace == "" && attr.Key == "src" {
+				seen = true
 				if !strings.HasPrefix(attr.Val, "xyzzy/foo/bar/") {
 					t.Errorf("script source points outside static url: %v", attr.Val)
 				}
 			}
 		}
+	}
+	if !seen {
+		t.Error("no asset scripts used, something must be wrong")
 	}
 }
 
