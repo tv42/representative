@@ -1,7 +1,7 @@
 # `representative` -- Static slideshow generator for Go slides
 
 `representative` takes a [Go
-Present-style](http://talks.golang.org/2012/go-docs.slide#21)
+Present-style](https://godoc.org/golang.org/x/tools/present)
 `*.slide` (or `*.article`) file and creates a static HTML page.
 
 ## Install
