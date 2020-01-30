@@ -7,7 +7,7 @@ Present-style](https://godoc.org/golang.org/x/tools/present)
 ## Install
 
 ```
-$ go get eagain.net/go/representative
+$ go get eagain.net/go/representative/cmd/representative
 ```
 
 ## Usage

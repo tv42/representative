@@ -1,30 +1,28 @@
-package main
+package representative_test
 
 import (
+	"bytes"
 	"io/ioutil"
 	"net/url"
-	"os"
 	"strings"
 	"testing"
 
+	"eagain.net/go/representative"
 	"github.com/andybalholm/cascadia"
 	"github.com/google/go-cmp/cmp"
 	"golang.org/x/net/html"
 )
 
 func TestSlidesStaticPath(t *testing.T) {
-	if err := convert(
+	buf := new(bytes.Buffer)
+	if err := representative.Convert(
+		buf,
 		"testdata/simple.slide",
 		&url.URL{Path: "xyzzy/foo/bar"},
 	); err != nil {
 		t.Fatalf("convert: %v", err)
 	}
-	f, err := os.Open("testdata/simple.slide.html")
-	if err != nil {
-		t.Fatalf("open slide html: %v", err)
-	}
-	defer f.Close()
-	tree, err := html.Parse(f)
+	tree, err := html.Parse(buf)
 	if err != nil {
 		t.Fatalf("parse slide html: %v", err)
 	}
@@ -55,7 +53,7 @@ func readdirnames(dir string) ([]string, error) {
 
 func TestWriteAssets(t *testing.T) {
 	const staticDir = "testdata/static"
-	if err := writeAssets(staticDir); err != nil {
+	if err := representative.WriteAssets(staticDir); err != nil {
 		t.Fatalf("writeAssets: %v", err)
 	}
 	names, err := readdirnames(staticDir)

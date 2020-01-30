@@ -1,11 +1,18 @@
-package main
+// Package representative creates static HTML for Go "represent"
+// format slides and articles.
+//
+// For more information, see
+// https://godoc.org/golang.org/x/tools/present
+//
+// The HTML and assets are co-dependent and should be created with the
+// same version of representative.
+package representative
 
 import (
 	"errors"
-	"flag"
 	"fmt"
 	"html/template"
-	"log"
+	"io"
 	"net/url"
 	"os"
 	"path/filepath"
@@ -16,28 +23,17 @@ import (
 	"golang.org/x/tools/present"
 )
 
-func init() {
-	present.PlayEnabled = true
-	// TODO present.NotesEnabled should probably come from a flag
-}
-
-func writeAssets(dir string) error {
-	if err := os.Mkdir(dir, 0755); err != nil && !errors.Is(err, os.ErrExist) {
-		return fmt.Errorf("cannot make asset directory: %v", err)
-	}
-	for name, content := range static.Assets {
-		if err := safefile.WriteFile(filepath.Join(dir, name), []byte(content), 0644); err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
 func playable(c present.Code) bool {
 	return c.Play && c.Ext == ".go"
 }
 
-func convert(src string, urlToAssets *url.URL) error {
+// Convert writes the HTML for the slides or article at file path src
+// to w.
+//
+// For assets that are included in the HTML (such as code examples),
+// it reads assets from files relative to src. The final HTML uses
+// urlToAssets as a base URL to load assets.
+func Convert(w io.Writer, src string, urlToAssets *url.URL) error {
 	tmpl := present.Template()
 	tmpl.Funcs(template.FuncMap{
 		// required by present
@@ -101,43 +97,18 @@ func convert(src string, urlToAssets *url.URL) error {
 	return nil
 }
 
-const prog = "representative"
-
-func usage() {
-	fmt.Fprintf(flag.CommandLine.Output(), "Usage of %s:\n", prog)
-	fmt.Fprintf(flag.CommandLine.Output(), "  %s [OPTS] SLIDES_AND_ARTICLES..\n", prog)
-	fmt.Fprintf(flag.CommandLine.Output(), "  %s -assets=DIR\n", prog)
-	flag.PrintDefaults()
-}
-
-func main() {
-	log.SetFlags(0)
-	log.SetPrefix(prog + ": ")
-
-	var assets = flag.String("assets", "", "write assets to `DIR`")
-	var urlToAssets URLFlag
-	urlToAssets.Default = func() *url.URL {
-		if s := *assets; s != "" {
-			return &url.URL{Path: s}
-		}
-		return &url.URL{Path: "static"}
+// WriteAssets writes the asset files into dir. The directory will be
+// created if needed. The exact set of files created should not be
+// relied on, and this directory should not be used for other
+// purposes.
+func WriteAssets(dir string) error {
+	if err := os.Mkdir(dir, 0755); err != nil && !errors.Is(err, os.ErrExist) {
+		return fmt.Errorf("cannot make asset directory: %v", err)
 	}
-	flag.Var(&urlToAssets, "url-to-assets", "base `URL` to fetch assets from; -assets sets this too")
-	flag.Usage = usage
-	flag.Parse()
-	if flag.NArg() == 0 && *assets == "" {
-		flag.Usage()
-		os.Exit(2)
-	}
-
-	for _, arg := range flag.Args() {
-		if err := convert(arg, urlToAssets.GetURL()); err != nil {
-			log.Fatalf("converting: %v", err)
+	for name, content := range static.Assets {
+		if err := safefile.WriteFile(filepath.Join(dir, name), []byte(content), 0644); err != nil {
+			return err
 		}
 	}
-	if dir := *assets; dir != "" {
-		if err := writeAssets(dir); err != nil {
-			log.Fatalf("writing assets: %v", err)
-		}
-	}
+	return nil
 }
