@@ -1,6 +1,5 @@
-The files in internal/golang_org_x_tools_cmd_present have a different
-copyright and license. Please see the file LICENSE in that
-subdirectory.
+The files in internal/golang_org_x_tools have a different copyright
+and license. Please see the file LICENSE in that subdirectory.
 
 Copyright (c) 2020 Tommi Virtanen
 
