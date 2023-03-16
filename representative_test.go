@@ -2,8 +2,8 @@ package representative_test
 
 import (
 	"bytes"
-	"io/ioutil"
 	"net/url"
+	"os"
 	"strings"
 	"testing"
 
@@ -45,7 +45,7 @@ func TestSlidesStaticPath(t *testing.T) {
 }
 
 func readdirnames(dir string) ([]string, error) {
-	fis, err := ioutil.ReadDir(dir)
+	fis, err := os.ReadDir(dir)
 	if err != nil {
 		return nil, err
 	}
