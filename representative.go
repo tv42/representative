@@ -2,7 +2,7 @@
 // format slides and articles.
 //
 // For more information, see
-// https://godoc.org/golang.org/x/tools/present
+// https://pkg.go.dev/golang.org/x/tools/present
 //
 // The HTML and assets are co-dependent and should be created with the
 // same version of representative.
